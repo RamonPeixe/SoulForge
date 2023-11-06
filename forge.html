@@ -29,17 +29,44 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="index.html"
-                >Home</a
-              >
+              <a class="nav-link" aria-current="page" href="index.html">
+                Home
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="forge.html">Forge</a>
+              <a class="nav-link active" href="forge.html"> Forge </a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center mt-3 mb-3">
+                <img src="assets/Skull.png" alt="Soul Skull" id="soulSkull" />
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="name">Name</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Enter the Soul Name"/>
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="age">Age</label>
+                <input type="text" name="age" class="form-control" id="age" placeholder="Enter the Soul Age"/>
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="birthday">Birthday</label>
+                <input type="date" name="birthday" class="form-control" id="birthday" placeholder="Enter the Soul Birthday"/>
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="dateOfDeath">Date of Death</label>
+                <input type="date" name="dateOfDeath" class="form-control" id="dateOfDeath" placeholder="Enter the Soul Date of Death"/>
+            </div>
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Forge Soul</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="text-center bg-black text-bg-dark">
       <p class="card-text py-3">
