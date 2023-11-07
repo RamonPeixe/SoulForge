@@ -1,6 +1,6 @@
 # SoulForge
 
-Project developed for the TC1SS5 discipline.
+Project developed for the TC1S5 discipline.
 
 ## Description
 
