@@ -24,17 +24,17 @@
     <nav class="navbar navbar-expand-md bg-black navbar-dark mb-3">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.html">
-          <h1 class="m-0"><b>Soul</b>Forge</h1>
+          <h1 class="m-0" id="soulForge"><b>Soul</b>Forge</h1>
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="index.html">
+              <a class="nav-link" aria-current="page" href="index.html" id="home">
                 Home
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="forge.html"> Forge </a>
+              <a class="nav-link active" href="forge.html" id="forgeSoul"> Forge </a>
             </li>
           </ul>
         </div>
@@ -113,6 +113,16 @@
     <!-- JS -->
     <script>
       $(document).ready(function (e) {
+        $("#forgeSoul").on("click", function(e){
+          localStorage.removeItem('selectedSoul');
+        });
+        $("#home").on("click", function(e){
+          localStorage.removeItem('selectedSoul');
+        });
+        $("#soulForge").on("click", function(e){
+          localStorage.removeItem('selectedSoul');
+        });
+
         function fillFormWithSelectedSoul() {
           let selectedSoul = JSON.parse(localStorage.getItem("selectedSoul"));
           if (selectedSoul) {
@@ -122,6 +132,7 @@
             $("#causeOfDeath").val(selectedSoul.causeOfDeath);
           }
         }
+
         fillFormWithSelectedSoul();
       });
 
@@ -133,6 +144,8 @@
         let causeOfDeath = $("#causeOfDeath").val();
 
         let souls = JSON.parse(localStorage.getItem("souls")) || [];
+
+        let selectedSoul = JSON.parse(localStorage.getItem('selectedSoul'));
 
         let validator = true;
 
@@ -216,9 +229,26 @@
           validator = false;
         }
 
-        if (validator) {
-          console.log("entrou aqui");
+        if (selectedSoul && validator) {
+          let updatedSoul = {
+            id: selectedSoul.id,
+            name: $('#name').val(),
+            dateOfDeath: $('#dateOfDeath').val(),
+            birthday: $('#birthday').val(),
+            causeOfDeath: $('#causeOfDeath').val(),
+          };
 
+          let souls = JSON.parse(localStorage.getItem('souls')) || [];
+          let index = souls.findIndex(item => item.id === updatedSoul.id);
+          if (index !== -1) {
+            souls[index] = updatedSoul;
+            localStorage.setItem('souls', JSON.stringify(souls));
+            localStorage.removeItem('selectedSoul');
+            window.location.href = 'index.html';
+          }
+        }
+
+        if (validator) {
           let newSoul = {
             id: souls.length + 1,
             name: name,

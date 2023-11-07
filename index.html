@@ -25,15 +25,15 @@
     <nav class="navbar navbar-expand-md bg-black navbar-dark mb-3">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.html">
-          <h1 class="m-0"><b>Soul</b>Forge</h1>
+          <h1 class="m-0" id="soulForge"><b>Soul</b>Forge</h1>
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              <a class="nav-link active" aria-current="page" href="index.html" id="home">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="forge.html">Forge</a>
+              <a class="nav-link" href="forge.html" id="forgeSoul">Forge</a>
             </li>
           </ul>
         </div>
@@ -154,6 +154,17 @@
       
       $(document).ready(function() {
         fillSoulsTable();
+
+        $("#forgeSoul").on("click", function(e){
+          localStorage.removeItem('selectedSoul');
+        });
+        $("#home").on("click", function(e){
+          localStorage.removeItem('selectedSoul');
+        });
+        $("#soulForge").on("click", function(e){
+          localStorage.removeItem('selectedSoul');
+        });
+
       });
     </script>
   </body>
