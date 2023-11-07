@@ -55,7 +55,8 @@
                 <th class="text-center">Cause of Death</th>
                 <th class="text-center">Actions</th>
               </tr>
-              <tbody></tbody>
+              <tbody>
+              </tbody>
             </thead>
           </table>
         </div>
@@ -77,6 +78,41 @@
     <!-- jQuery -->
     <script src="js/jquery-3.7.1.js"></script>
     <!-- JS -->
-    <script></script>
+    <script>
+      function fillSoulsTable() {
+        let souls = JSON.parse(localStorage.getItem('souls')) || [];
+        if(souls){
+          let tableBody = $('#soulsTable tbody');
+          tableBody.empty();
+
+          souls.forEach(soul => {
+
+            let formatDate = (date) => {
+                const [year, month, day] = date.split('-');
+                return `${day}/${month}/${year}`;
+            };
+
+            let formattedBirthday = formatDate(soul.birthday);
+            let formattedDateOfDeath = formatDate(soul.dateOfDeath);
+            
+            let row = `<tr>
+                        <td class="text-center">${soul.name}</td>
+                        <td class="text-center">${formattedBirthday}</td>
+                        <td class="text-center">${formattedDateOfDeath}</td>
+                        <td class="text-center">${soul.causeOfDeath}</td>
+                        <td class="text-center">
+                          <button type="button" class="btn btn-primary" id="editSoul-${soul.id}">Edit</button>
+                          <button type="button" class="btn btn-danger" id="deleteSoul-${soul.id}">Delete</button>
+                        </td>
+                      </tr>`;
+            tableBody.append(row);
+          });
+        }
+      }
+      
+      $(document).ready(function() {
+        fillSoulsTable();
+      });
+    </script>
   </body>
 </html>
