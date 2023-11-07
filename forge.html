@@ -42,30 +42,58 @@
     </nav>
 
     <div class="container">
+      <form id="forgeSoulForm">
         <div class="row">
-            <div class="col-md-12 d-flex justify-content-center mt-3 mb-3">
-                <img src="assets/Skull.png" alt="Soul Skull" id="soulSkull" />
-            </div>
-            <div class="col-md-6 form-group mb-3">
-                <label for="name">Name</label>
-                <input type="text" name="name" class="form-control" id="name" placeholder="Enter the Soul Name"/>
-            </div>
-            <div class="col-md-6 form-group mb-3">
-              <label for="dateOfDeath">Date of Death</label>
-              <input type="date" name="dateOfDeath" class="form-control" id="dateOfDeath"/>
-            </div>
-            <div class="col-md-6 form-group mb-3">
-                <label for="birthday">Birthday</label>
-                <input type="date" name="birthday" class="form-control" id="birthday"/>
-            </div>
-            <div class="col-md-6 form-group mb-3">
-              <label for="causeOfDeath">Cause of Death</label>
-              <input type="text" name="causeOfDeath" class="form-control" id="causeOfDeath" placeholder="Enter the Cause of Death"/>
-            </div>
-            <div class="col-md-12 d-flex justify-content-end">
-                <button class="btn btn-primary" type="submit">Forge Soul</button>
-            </div>
+          <div class="col-md-12 d-flex justify-content-center mt-3 mb-3">
+            <img src="assets/Skull.png" alt="Soul Skull" id="soulSkull" />
+          </div>
+          <div class="col-md-6 form-group mb-3">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              name="name"
+              class="form-control"
+              id="name"
+              placeholder="Enter the Soul Name"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group mb-3">
+            <label for="dateOfDeath">Date of Death</label>
+            <input
+              type="date"
+              name="dateOfDeath"
+              class="form-control"
+              id="dateOfDeath"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group mb-3">
+            <label for="birthday">Birthday</label>
+            <input
+              type="date"
+              name="birthday"
+              class="form-control"
+              id="birthday"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group mb-3">
+            <label for="causeOfDeath">Cause of Death</label>
+            <input
+              type="text"
+              name="causeOfDeath"
+              class="form-control"
+              id="causeOfDeath"
+              placeholder="Enter the Cause of Death"
+              required
+            />
+          </div>
+          <div class="col-md-12 d-flex justify-content-end">
+            <button class="btn btn-primary" type="submit">Forge Soul</button>
+          </div>
         </div>
+      </form>
     </div>
 
     <footer class="text-center bg-black text-bg-dark">
