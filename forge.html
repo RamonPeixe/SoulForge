@@ -112,6 +112,125 @@
     <script src="js/jquery-3.7.1.js"></script>
     <!-- JS -->
     <script>
+      $(document).on("submit", function (e) {
+        e.preventDefault();
+
+        let name = $("#name").val();
+        let dateOfDeath = $("#dateOfDeath").val();
+        let birthday = $("#birthday").val();
+        let causeOfDeath = $("#causeOfDeath").val();
+
+        let souls = JSON.parse(localStorage.getItem("souls")) || [];
+
+        let validator = true;
+
+        //check if the name only have letters
+        let letters = /^[A-Za-z]+$/;
+        if (!name.match(letters)) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Make sure your soul's name does not contain numbers!",
+          });
+          validator = false;
+        }
+
+        //check if all fields have been filled in
+        if (!name || !dateOfDeath || !birthday || !causeOfDeath) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Make sure you fill out all the fields before trying to forge a soul!",
+          });
+          validator = false;
+        }
+
+        //converting from string to date and validate birthday and date of death
+        if (dateOfDeath && birthday) {
+          let dateDateOfDeath = Date.parse(dateOfDeath);
+          let dateBirthday = Date.parse(birthday);
+          if (dateBirthday > dateDateOfDeath) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Make sure your soul's date of death is later than your date of birth!",
+            });
+            validator = false;
+          }
+        }
+
+        //checking strings sizes
+        if (name.length < 3) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Make sure your soul's name is at least 3 characters long!",
+          });
+          validator = false;
+        }
+        if (name.length > 30) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Make sure your soul's name has a maximum of 30 characters long!",
+          });
+          validator = false;
+        }
+        if (causeOfDeath.length < 4) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Make sure your soul's cause of death is at least 4 characters long!",
+          });
+          validator = false;
+        }
+        if (causeOfDeath.length > 25) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Make sure your soul's cause of death has a maximum of 25 characters long!",
+          });
+          validator = false;
+        }
+
+        //checking if there is a soul with the same name
+        let soulWithSameName = souls.find((soul) => soul.name === name);
+        if (soulWithSameName) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Unfortunately, a soul with that name arrived first. Please give your soul another name.",
+          });
+          validator = false;
+        }
+
+        if (validator) {
+          console.log("entrou aqui")
+
+          let newSoul = {
+            id: souls.length + 1,
+            name: name,
+            dateOfDeath: dateOfDeath,
+            birthday: birthday,
+            causeOfDeath: causeOfDeath,
+          };
+
+          souls.push(newSoul);
+
+          localStorage.setItem("souls", JSON.stringify(souls));
+
+          $("#name").val("");
+          $("#dateOfDeath").val("");
+          $("#birthday").val("");
+          $("#causeOfDeath").val("");
+
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "Soul forged!",
+          });
+        }
+      });
     </script>
   </body>
 </html>
