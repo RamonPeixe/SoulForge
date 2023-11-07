@@ -112,6 +112,11 @@
           $(`#deleteSoul-${soul.id}`).on('click', function() {
             let updatedSouls = souls.filter(item => item.id !== soul.id);
             localStorage.setItem('souls', JSON.stringify(updatedSouls));
+            Swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "This soul has been successfully released!",
+            });
             fillSoulsTable();
           });
         });
