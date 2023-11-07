@@ -107,6 +107,14 @@
                       </tr>`;
             tableBody.append(row);
           });
+
+          souls.forEach(soul => {
+          $(`#deleteSoul-${soul.id}`).on('click', function() {
+            let updatedSouls = souls.filter(item => item.id !== soul.id);
+            localStorage.setItem('souls', JSON.stringify(updatedSouls));
+            fillSoulsTable();
+          });
+        });
         }
       }
       
