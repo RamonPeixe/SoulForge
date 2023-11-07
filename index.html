@@ -81,36 +81,36 @@
     <script>
       function fillSoulsTable() {
         let souls = JSON.parse(localStorage.getItem('souls')) || [];
-        if(souls){
+        if (souls) {
           let tableBody = $('#soulsTable tbody');
           tableBody.empty();
 
           souls.forEach(soul => {
 
             let formatDate = (date) => {
-                const [year, month, day] = date.split('-');
-                return `${day}/${month}/${year}`;
+              const [year, month, day] = date.split('-');
+              return `${day}/${month}/${year}`;
             };
 
             let formattedBirthday = formatDate(soul.birthday);
             let formattedDateOfDeath = formatDate(soul.dateOfDeath);
-            
+
             let row = `<tr>
                         <td class="text-center">${soul.name}</td>
                         <td class="text-center">${formattedBirthday}</td>
                         <td class="text-center">${formattedDateOfDeath}</td>
                         <td class="text-center">${soul.causeOfDeath}</td>
                         <td class="text-center">
-                          <button type="button" class="btn btn-primary" id="editSoul-${soul.id}">Edit</button>
-                          <button type="button" class="btn btn-danger" id="deleteSoul-${soul.id}">Delete</button>
+                          <button type="button" class="btn btn-primary edit-soul" data-id="${soul.id}">Edit</button>
+                          <button type="button" class="btn btn-danger delete-soul" data-id="${soul.id}">Delete</button>
                         </td>
                       </tr>`;
             tableBody.append(row);
           });
 
-          souls.forEach(soul => {
-          $(`#deleteSoul-${soul.id}`).on('click', function() {
-            let soulToDelete = souls.find(item => item.id === soul.id);
+          $('.delete-soul').on('click', function() {
+            let id = $(this).data('id');
+            let soulToDelete = souls.find(item => item.id === id);
             if (soulToDelete) {
               Swal.fire({
                 title: "Do you want to delete this soul?",
@@ -119,22 +119,35 @@
                 denyButtonText: `Don't Realese`
               }).then((result) => {
                 if (result.isConfirmed) {
-                  let updatedSouls = souls.filter(item => item.id !== soul.id);
-                  localStorage.setItem('souls', JSON.stringify(updatedSouls));
-                  Swal.fire({
+                let updatedSouls = souls.filter(item => item.id !== id);
+                localStorage.setItem('souls', JSON.stringify(updatedSouls));
+                Swal.fire({
                     icon: "success",
                     title: "Success!",
                     text: "This soul has been successfully released!",
                   });
-                  fillSoulsTable();
-                } else if (result.isDenied) {
+                fillSoulsTable();
+                }else if (result.isDenied) {
                   Swal.fire("This soul remains trapped!", "", "info");
-                }
-              });
+                }else{
+                    Swal.fire("This soul was not found!", "", "error");
+                }});
             }else{
-              Swal.fire("This soul was not found!", "", "error");
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "This soul was not found!"
+              });
             }
           });
+
+          $('.edit-soul').on('click', function() {
+          const id = $(this).data('id');
+          const soul = souls.find(item => item.id === id);
+
+          localStorage.setItem('selectedSoul', JSON.stringify(soul));
+
+          window.location.href = 'forge.html';
         });
         }
       }

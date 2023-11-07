@@ -112,9 +112,21 @@
     <script src="js/jquery-3.7.1.js"></script>
     <!-- JS -->
     <script>
+      $(document).ready(function (e) {
+        function fillFormWithSelectedSoul() {
+          let selectedSoul = JSON.parse(localStorage.getItem("selectedSoul"));
+          if (selectedSoul) {
+            $("#name").val(selectedSoul.name);
+            $("#dateOfDeath").val(selectedSoul.dateOfDeath);
+            $("#birthday").val(selectedSoul.birthday);
+            $("#causeOfDeath").val(selectedSoul.causeOfDeath);
+          }
+        }
+        fillFormWithSelectedSoul();
+      });
+
       $(document).on("submit", function (e) {
         e.preventDefault();
-
         let name = $("#name").val();
         let dateOfDeath = $("#dateOfDeath").val();
         let birthday = $("#birthday").val();
@@ -205,7 +217,7 @@
         }
 
         if (validator) {
-          console.log("entrou aqui")
+          console.log("entrou aqui");
 
           let newSoul = {
             id: souls.length + 1,
