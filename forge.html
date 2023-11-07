@@ -59,22 +59,22 @@
             />
           </div>
           <div class="col-md-6 form-group mb-3">
-            <label for="dateOfDeath">Date of Death</label>
-            <input
-              type="date"
-              name="dateOfDeath"
-              class="form-control"
-              id="dateOfDeath"
-              required
-            />
-          </div>
-          <div class="col-md-6 form-group mb-3">
             <label for="birthday">Birthday</label>
             <input
               type="date"
               name="birthday"
               class="form-control"
               id="birthday"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group mb-3">
+            <label for="dateOfDeath">Date of Death</label>
+            <input
+              type="date"
+              name="dateOfDeath"
+              class="form-control"
+              id="dateOfDeath"
               required
             />
           </div>
@@ -160,6 +160,20 @@
           validator = false;
         }
 
+        //checking if there is a soul with the same name
+        let soulWithSameName = souls.find((soul) => soul.name === name);
+        if (soulWithSameName) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Unfortunately, a soul with that name arrived first. Please give your soul another name.",
+          });
+          validator = false;
+          if (selectedSoul && selectedSoul.name === name) {
+            validator = true;
+          }
+        }
+
         //check if all fields have been filled in
         if (!name || !dateOfDeath || !birthday || !causeOfDeath) {
           Swal.fire({
@@ -218,59 +232,56 @@
           validator = false;
         }
 
-        //checking if there is a soul with the same name
-        let soulWithSameName = souls.find((soul) => soul.name === name);
-        if (soulWithSameName) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Unfortunately, a soul with that name arrived first. Please give your soul another name.",
-          });
-          validator = false;
-        }
-
-        if (selectedSoul && validator) {
-          let updatedSoul = {
-            id: selectedSoul.id,
-            name: $('#name').val(),
-            dateOfDeath: $('#dateOfDeath').val(),
-            birthday: $('#birthday').val(),
-            causeOfDeath: $('#causeOfDeath').val(),
-          };
-
-          let souls = JSON.parse(localStorage.getItem('souls')) || [];
-          let index = souls.findIndex(item => item.id === updatedSoul.id);
-          if (index !== -1) {
-            souls[index] = updatedSoul;
-            localStorage.setItem('souls', JSON.stringify(souls));
-            localStorage.removeItem('selectedSoul');
-            window.location.href = 'index.html';
+        if (selectedSoul) {
+          if(validator){
+            console.log(validator);
+            let updatedSoul = {
+              id: selectedSoul.id,
+              name: $('#name').val(),
+              dateOfDeath: $('#dateOfDeath').val(),
+              birthday: $('#birthday').val(),
+              causeOfDeath: $('#causeOfDeath').val(),
+            };
+            let souls = JSON.parse(localStorage.getItem('souls')) || [];
+            const index = souls.findIndex(item => item.id === updatedSoul.id);
+            if (index !== -1) {
+              souls[index] = updatedSoul;
+              localStorage.setItem('souls', JSON.stringify(souls));
+              localStorage.removeItem('selectedSoul');
+              Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: "This soul has been successfully transmuted!",
+                  }).then((result) => {
+                    window.location.href = 'index.html';
+              });
+            }          
           }
-        }
+        }else{
+          if (validator) {
+            let newSoul = {
+              id: souls.length + 1,
+              name: name,
+              dateOfDeath: dateOfDeath,
+              birthday: birthday,
+              causeOfDeath: causeOfDeath,
+            };
 
-        if (validator) {
-          let newSoul = {
-            id: souls.length + 1,
-            name: name,
-            dateOfDeath: dateOfDeath,
-            birthday: birthday,
-            causeOfDeath: causeOfDeath,
-          };
+            souls.push(newSoul);
 
-          souls.push(newSoul);
+            localStorage.setItem("souls", JSON.stringify(souls));
 
-          localStorage.setItem("souls", JSON.stringify(souls));
+            $("#name").val("");
+            $("#dateOfDeath").val("");
+            $("#birthday").val("");
+            $("#causeOfDeath").val("");
 
-          $("#name").val("");
-          $("#dateOfDeath").val("");
-          $("#birthday").val("");
-          $("#causeOfDeath").val("");
-
-          Swal.fire({
-            icon: "success",
-            title: "Success!",
-            text: "Soul forged!",
-          });
+            Swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "Soul forged!",
+            });
+          }
         }
       });
     </script>
